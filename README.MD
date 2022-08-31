@@ -19,6 +19,7 @@ This solution is great for the following scenarios :
 - System Notifications
 - IOT Devices
 - Home Automation
+- Anything that can run linux .
 
 ----
 
