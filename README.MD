@@ -1,6 +1,6 @@
 # Notify-Go
 
- <p align="center"><img src="./assets/logo/logo.png?raw=true" width="256px" align="center"/> </p>
+ <p align="center"><img src="./assets/logo/logo_new.png?raw=true" width="256px" align="center"/> </p>
 
 
 Notify Go is a command line / sdk that allows you to easily send (bot style) messages to a recipient . This features a base implementation for all your favourite messaging platforms 
