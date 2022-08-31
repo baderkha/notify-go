@@ -8,6 +8,11 @@ import (
 	"gopkg.in/resty.v1"
 )
 
+// WebhookConfig : webhook sender configuration
+type WebhookConfig struct {
+	DefaultChannelWebhook string
+}
+
 // WebhookSender : Generic message sender using webhooks
 type WebhookSender[T interface{ WithBody(b []byte) T }] struct {
 	errPrefix         string
@@ -18,6 +23,10 @@ type WebhookSender[T interface{ WithBody(b []byte) T }] struct {
 // SendToDefaultReciever : send to someone in your default configs
 func (s *WebhookSender[T]) SendToDefaultReciever(bodyContent []byte) error {
 	return s.SendToReciever(s.defaultWebhookURL, bodyContent)
+}
+
+func (s *WebhookSender[T]) GetDefaultReciever() string {
+	return s.defaultWebhookURL
 }
 
 // SendToReciever send to someone not in your default configs
@@ -44,6 +53,6 @@ func NewWebhookSender[T interface{ WithBody(b []byte) T }](cfg *WebhookConfig, e
 	return &WebhookSender[T]{
 		errPrefix:         errPrefix,
 		defaultWebhookURL: cfg.DefaultChannelWebhook,
-		r:                 resty.New().SetDebug(debugging),
+		r:                 resty.New().SetDebug(isDebug),
 	}
 }
