@@ -16,3 +16,11 @@ const (
 	// TelegramSenderType : senderType of telegram
 	TelegramSenderType = "telegram"
 )
+
+var (
+	SupportedTypes = []string{
+		DiscordSenderType,
+		SlackSenderType,
+		TelegramSenderType,
+	}
+)

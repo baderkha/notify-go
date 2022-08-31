@@ -12,7 +12,7 @@ like :
 
 **Note**: *this is not a 2 way messaging protocol . This project only publishes messages*
 
-It's aimed to be super minimal with only a single method to call in order to make the dev experience as simple as possible.
+It's aimed to be super minimal and simple to configure.
 
 This solution is great for the following scenarios :
 - Command Line Notifications
