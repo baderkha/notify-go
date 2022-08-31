@@ -9,7 +9,6 @@ like :
 -  telegram 
 -  discord 
 -  slack 
--  sns
 
 **Note**: *this is not a 2 way messaging protocol . This project only publishes messages*
 
