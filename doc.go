@@ -1,6 +1,8 @@
 // Package notify: a notificaion publishing package that allows you to send messages to different social platforms
 package notify
 
+import "strings"
+
 const (
 
 	// EnvHTTPDebugging : setting this environment
@@ -15,6 +17,8 @@ const (
 	SlackSenderType = "slack"
 	// TelegramSenderType : senderType of telegram
 	TelegramSenderType = "telegram"
+	// TestSenderType : sender Type for testing
+	TestSenderType = "test"
 )
 
 var (
@@ -22,5 +26,7 @@ var (
 		DiscordSenderType,
 		SlackSenderType,
 		TelegramSenderType,
+		TestSenderType,
 	}
+	SupportedTypesString = strings.Join(SupportedTypes, " , ")
 )

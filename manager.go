@@ -1,10 +1,15 @@
 package notify
 
 import (
+	"errors"
 	"fmt"
 	"sync"
 
-	"github.com/baderkha/notify-go/pkg/thirdparty/errors"
+	err "github.com/baderkha/notify-go/pkg/thirdparty/err"
+)
+
+var (
+	errExpectedAlias = errors.New("notify-go : Error expected an alias mapping to be provided")
 )
 
 // Manager : A manager for all the sender type implementations
@@ -15,7 +20,7 @@ type Manager struct {
 // SendDefaultAll : concurrently sends messages to all the setup senders
 func (m *Manager) SendDefaultAll(body []byte) error {
 	var wg sync.WaitGroup
-	var erList errors.ErrorList
+	var erList err.List
 	for _, v := range m.senders {
 		wg.Add(1)
 		go func(body []byte, sender MessageSender) {
@@ -35,13 +40,16 @@ func (m *Manager) SendDefaultAll(body []byte) error {
 
 // SendAllToSameReciever : concurrently sends messages to all the senders given a reciver alias address map
 func (m *Manager) SendAllToSameReciever(alias *RecieverAlias, bodyContent []byte) error {
+	if alias == nil {
+		return errExpectedAlias
+	}
 	var wg sync.WaitGroup
-	var erList errors.ErrorList
+	var erList err.List
 	for k, v := range m.senders {
 		wg.Add(1)
 		go func(body []byte, alias *RecieverAlias, senderType string, v MessageSender) {
 			defer wg.Done()
-			reciever := alias.get(senderType)
+			reciever := alias.Get(senderType)
 			if reciever == "" {
 				erList.Push(fmt.Errorf("notfy-go : Message Manager : Expected alias entry for senderType %s", senderType))
 				return

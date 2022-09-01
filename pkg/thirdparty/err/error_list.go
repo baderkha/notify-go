@@ -1,16 +1,16 @@
-package errors
+package err
 
 import "sync"
 
-// ErrorList is used to chain a list of potential errors and is thread-safe.
-type ErrorList struct {
+// List is used to chain a list of potential errors and is thread-safe.
+type List struct {
 	mux  sync.RWMutex
 	errs []error
 }
 
 // Error will return the string-form of the errors.
 // Implements the error interface.
-func (e *ErrorList) Error() string {
+func (e *List) Error() string {
 	if e == nil {
 		return ""
 	}
@@ -35,10 +35,10 @@ func (e *ErrorList) Error() string {
 	return string(b)
 }
 
-// Err will return an error if the errorlist is not empty.
+// Err will return an error if the List is not empty.
 // If there's only 1 error, it will be directly returned.
-// If the errorlist is empty - nil is returned.
-func (e *ErrorList) Err() (err error) {
+// If the List is empty - nil is returned.
+func (e *List) Err() (err error) {
 	if e == nil {
 		return
 	}
@@ -54,10 +54,10 @@ func (e *ErrorList) Err() (err error) {
 	return
 }
 
-// Push will push an error to the errorlist
-// If err is a errorlist, it will be merged.
-// If the errorlist is nil, it will be created.
-func (e *ErrorList) Push(err error) {
+// Push will push an error to the List
+// If err is a List, it will be merged.
+// If the List is nil, it will be created.
+func (e *List) Push(err error) {
 	if err == nil {
 		return
 	}
@@ -66,7 +66,7 @@ func (e *ErrorList) Push(err error) {
 	defer e.mux.Unlock()
 
 	switch v := err.(type) {
-	case *ErrorList:
+	case *List:
 		v.ForEach(func(err error) {
 			e.errs = append(e.errs, err)
 		})
@@ -77,7 +77,7 @@ func (e *ErrorList) Push(err error) {
 }
 
 // ForEach will iterate through all of the errors within the error list.
-func (e *ErrorList) ForEach(fn func(error)) {
+func (e *List) ForEach(fn func(error)) {
 	if e == nil {
 		return
 	}
@@ -90,7 +90,7 @@ func (e *ErrorList) ForEach(fn func(error)) {
 }
 
 // Copy will copy the items from the inbound error list to the source
-func (e *ErrorList) Copy(in *ErrorList) {
+func (e *List) Copy(in *List) {
 	if in == nil {
 		return
 	}
@@ -104,8 +104,8 @@ func (e *ErrorList) Copy(in *ErrorList) {
 	e.errs = append(e.errs, in.errs...)
 }
 
-// Len will return the length of the inner errors list.
-func (e *ErrorList) Len() (n int) {
+// Len will return the length of the inner err.List.
+func (e *List) Len() (n int) {
 	if e == nil {
 		return
 	}

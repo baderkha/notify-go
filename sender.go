@@ -16,20 +16,6 @@ func SetDebug(val bool) {
 	isDebug = val
 }
 
-func NewRecieverAlias(senderTypeToReciverMap map[string]string) *RecieverAlias {
-	return &RecieverAlias{
-		aliasMap: senderTypeToReciverMap,
-	}
-}
-
-type RecieverAlias struct {
-	aliasMap map[string]string
-}
-
-func (r *RecieverAlias) get(senderType string) string {
-	return r.aliasMap[senderType]
-}
-
 // MessageSender : a base contract that all other message
 // senders need to fullfill
 type MessageSender interface {

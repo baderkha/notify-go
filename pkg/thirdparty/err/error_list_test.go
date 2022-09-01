@@ -1,19 +1,19 @@
-package errors
+package err
 
 import (
 	"errors"
 	"testing"
 )
 
-func TestErrorList(t *testing.T) {
-	var errs ErrorList
+func TestList(t *testing.T) {
+	var errs List
 	errs.Push(errors.New("hello world"))
 	if errs.Err() == nil {
 		t.Fatal("error is nil when it should not be")
 	}
 
 	if errs.Len() != 1 {
-		t.Fatal("invalid errorlist length")
+		t.Fatal("invalid List length")
 	}
 
 	errs.ForEach(func(err error) {
@@ -23,15 +23,15 @@ func TestErrorList(t *testing.T) {
 	})
 }
 
-func TestNilErrorList(t *testing.T) {
-	var errs ErrorList
+func TestNilList(t *testing.T) {
+	var errs List
 	errs.Push(errors.New("hello world"))
 	if errs.Err() == nil {
 		t.Fatal("error is nil when it should not be")
 	}
 
 	if errs.Len() != 1 {
-		t.Fatal("invalid errorlist length")
+		t.Fatal("invalid List length")
 	}
 
 	errs.ForEach(func(err error) {
@@ -40,6 +40,6 @@ func TestNilErrorList(t *testing.T) {
 		}
 	})
 
-	var errs2 *ErrorList
+	var errs2 *List
 	errs.Push(errs2)
 }

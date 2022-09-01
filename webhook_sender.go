@@ -25,10 +25,6 @@ func (s *WebhookSender[T]) SendToDefaultReciever(bodyContent []byte) error {
 	return s.SendToReciever(s.defaultWebhookURL, bodyContent)
 }
 
-func (s *WebhookSender[T]) GetDefaultReciever() string {
-	return s.defaultWebhookURL
-}
-
 // SendToReciever send to someone not in your default configs
 func (s *WebhookSender[T]) SendToReciever(reciever string, bodyContent []byte) error {
 	var bdy T
