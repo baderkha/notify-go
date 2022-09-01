@@ -9,6 +9,15 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
+func Test_Notify_Manager_AddSender(t *testing.T) {
+	mgr := new(Manager)
+	mockSender := new(SenderMock)
+	mgr.AddSender(TestSenderType, mockSender)
+	assert.Len(t, mgr.senders, 1)
+	mgr.AddSender(TestSenderType+"2", mockSender)
+	assert.Len(t, mgr.senders, 2)
+}
+
 func Test_Notify_Manager_SendDefaultAll(t *testing.T) {
 	// nil map ? should not panic ? pls
 	{

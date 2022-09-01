@@ -15,6 +15,19 @@ var (
 // Manager : A manager for all the sender type implementations
 type Manager struct {
 	senders map[string]MessageSender
+	mu      sync.Mutex
+}
+
+// AddSender : add a sender service
+// Try to use this only during your app's init phase
+// preferably
+func (m *Manager) AddSender(senderType string, s MessageSender) {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	if m.senders == nil {
+		m.senders = make(map[string]MessageSender)
+	}
+	m.senders[senderType] = s
 }
 
 // SendDefaultAll : concurrently sends messages to all the setup senders
