@@ -10,10 +10,17 @@ like :
 -  discord 
 -  slack 
 
-**Note**: *this is not a 2 way messaging protocol . This project only publishes messages*
+
+
+**Note**: 
+*this is not a 2 way messaging protocol . This project only publishes messages*
+
+Also , I would like to mention ,  Slack and Discord both use `webhooks` . So if you just want to use those and have simple needs . **NO NEED TO USE THIS SOLUTION** it's overkill. Just Send an http request to the webhook route with the body. ie curl it. 
+
+
+
 
 It's aimed to be super minimal and simple to configure.
-
 This solution is great for the following scenarios :
 - Command Line Notifications
 - System Notifications
@@ -57,14 +64,7 @@ go get -u github.com/baderkha/notify-go
  <h2 align="center"> API Usage </h2> 
  This section will cover how to use the api.
 
-## Manager
-
-`notify.Manager` enables you to orchestrate sending messages to multiple social platforms . This should be used only if you expect your application to use more than 1 notification platform . 
-
-[Otherwise see](#MessageSender)
-
-
-## MessageSender:
+## MessageSender
 `notify.MessageSender` is an interface which has implementations for slack,discord,and telegram. If your usage is simple and you only want to message Discord for example . Then attaching this interface is perfect for you.
 
 
@@ -104,7 +104,7 @@ if err != nil {
 
 
 
-### Discord
+### Discord Instructions
 Discord is very similar to slack since it also uses webhooks to send messages to a chat . So the init logic is the same .
 
 1) init
@@ -134,6 +134,15 @@ if err != nil {
 }
 
 ```
+
+
+## Manager
+
+`notify.Manager` enables you to orchestrate sending messages to multiple social platforms . This should be used only if you expect your application to use more than 1 notification platform . 
+
+[Otherwise see](#MessageSender)
+
+
 
 
 ----
