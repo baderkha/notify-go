@@ -55,8 +55,6 @@ go get -u github.com/baderkha/notify-go
 
 ## B) Command Line Installation
 
-// todo
-
 1) go to [release page](https://github.com/baderkha/notify-go/releases)
 
 2) download the binary that matches your system
