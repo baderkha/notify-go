@@ -18,79 +18,11 @@ func Test_Notify_Manager_AddSender(t *testing.T) {
 	assert.Len(t, mgr.senders, 2)
 }
 
-func Test_Notify_Manager_SendDefaultAll(t *testing.T) {
-	// nil map ? should not panic ? pls
-	{
-		mgr := new(Manager)
-		assert.NotPanics(t, func() { err := mgr.SendDefaultAll([]byte("some message")); assert.Nil(t, err) })
-	}
-	// not nil map , errors out , should return back 1 err
-	{
-		expectedErr := errors.New("a really scary err")
-		msg := []byte("something")
-		mgr := new(Manager)
-		mgr.senders = make(map[string]MessageSender)
-		mockSender := new(SenderMock)
-		mgr.senders[TestSenderType] = mockSender
-		mockSender.
-			On("SendToDefaultReciever", mock.AnythingOfType("[]uint8")).
-			Run(func(args mock.Arguments) {
-				assert.Equal(t, string(msg), string(args.Get(0).([]byte)))
-			}).
-			Return(expectedErr)
-
-		err := mgr.SendDefaultAll(msg)
-		assert.ErrorIs(t, expectedErr, err)
-
-	}
-	// not nil map , more than 1 , should return back more than 1 err
-	{
-		expectedErr := errors.New("a really scary err")
-		msg := []byte("something")
-		mgr := new(Manager)
-		mgr.senders = make(map[string]MessageSender)
-		mockSender := new(SenderMock)
-		mgr.senders[TestSenderType] = mockSender
-		mgr.senders[TestSenderType+"2"] = mockSender
-		mockSender.
-			On("SendToDefaultReciever", mock.AnythingOfType("[]uint8")).
-			Run(func(args mock.Arguments) {
-				assert.Equal(t, string(msg), string(args.Get(0).([]byte)))
-			}).
-			Return(expectedErr)
-
-		errGot := mgr.SendDefaultAll(msg)
-		var erList err.List
-		erList.Push(expectedErr)
-		erList.Push(expectedErr)
-		assert.Equal(t, erList.Error(), errGot.Error())
-
-	}
-	// not nil map , no error , should return nil
-	{
-
-		msg := []byte("something")
-		mgr := new(Manager)
-		mgr.senders = make(map[string]MessageSender)
-		mockSender := new(SenderMock)
-		mgr.senders[TestSenderType] = mockSender
-		mockSender.
-			On("SendToDefaultReciever", mock.AnythingOfType("[]uint8")).
-			Run(func(args mock.Arguments) {
-				assert.Equal(t, string(msg), string(args.Get(0).([]byte)))
-			}).
-			Return(nil)
-
-		err := mgr.SendDefaultAll(msg)
-		assert.Nil(t, err)
-	}
-}
-
 func Test_Notify_Manager_SendAllToSameReceiver(t *testing.T) {
 	// nil map ? should not panic ? pls
 	{
 		mgr := new(Manager)
-		assert.NotPanics(t, func() { err := mgr.SendAllToSameReciever(&RecieverAlias{}, []byte("some message")); assert.Nil(t, err) })
+		assert.NotPanics(t, func() { err := mgr.SendAll(&RecieverAlias{}, []byte("some message")); assert.Nil(t, err) })
 	}
 	// not nil map , with a nil alias , should error out with specific err
 	{
@@ -99,7 +31,7 @@ func Test_Notify_Manager_SendAllToSameReceiver(t *testing.T) {
 		mgr.senders = make(map[string]MessageSender)
 		mockSender := new(SenderMock)
 		mgr.senders[TestSenderType] = mockSender
-		err := mgr.SendAllToSameReciever(nil, msg)
+		err := mgr.SendAll(nil, msg)
 		assert.ErrorIs(t, errExpectedAlias, err)
 	}
 	// not nil map , with non nil alias , but no alias for that type , should error
@@ -113,7 +45,7 @@ func Test_Notify_Manager_SendAllToSameReceiver(t *testing.T) {
 		mockSender := new(SenderMock)
 		mgr.senders[TestSenderType] = mockSender
 
-		err := mgr.SendAllToSameReciever(&a, msg)
+		err := mgr.SendAll(&a, msg)
 		assert.Error(t, expectedErr, err)
 
 	}
@@ -128,13 +60,13 @@ func Test_Notify_Manager_SendAllToSameReceiver(t *testing.T) {
 		mockSender := new(SenderMock)
 		mgr.senders[TestSenderType] = mockSender
 		mockSender.
-			On("SendToReciever", mock.AnythingOfType("string"), mock.AnythingOfType("[]uint8")).
+			On("Send", mock.AnythingOfType("string"), mock.AnythingOfType("[]uint8")).
 			Run(func(args mock.Arguments) {
 				assert.Equal(t, a.Get(TestSenderType), args.Get(0).(string))
 				assert.Equal(t, string(msg), string(args.Get(1).([]byte)))
 			}).
 			Return(expectedErr)
-		err := mgr.SendAllToSameReciever(&a, msg)
+		err := mgr.SendAll(&a, msg)
 		assert.Error(t, expectedErr, err)
 
 	}
@@ -152,13 +84,13 @@ func Test_Notify_Manager_SendAllToSameReceiver(t *testing.T) {
 		mgr.senders[TestSenderType] = mockSender
 		mgr.senders[SlackSenderType] = mockSender
 		mockSender.
-			On("SendToReciever", mock.AnythingOfType("string"), mock.AnythingOfType("[]uint8")).
+			On("Send", mock.AnythingOfType("string"), mock.AnythingOfType("[]uint8")).
 			Run(func(args mock.Arguments) {
 				assert.Equal(t, a.Get(TestSenderType), args.Get(0).(string))
 				assert.Equal(t, string(msg), string(args.Get(1).([]byte)))
 			}).
 			Return(expectedErr)
-		errGot := mgr.SendAllToSameReciever(&a, msg)
+		errGot := mgr.SendAll(&a, msg)
 		var erList err.List
 		erList.Push(expectedErr)
 		erList.Push(expectedErr)
@@ -176,13 +108,13 @@ func Test_Notify_Manager_SendAllToSameReceiver(t *testing.T) {
 		mockSender := new(SenderMock)
 		mgr.senders[TestSenderType] = mockSender
 		mockSender.
-			On("SendToReciever", mock.AnythingOfType("string"), mock.AnythingOfType("[]uint8")).
+			On("Send", mock.AnythingOfType("string"), mock.AnythingOfType("[]uint8")).
 			Run(func(args mock.Arguments) {
 				assert.Equal(t, a.Get(TestSenderType), args.Get(0).(string))
 				assert.Equal(t, string(msg), string(args.Get(1).([]byte)))
 			}).
 			Return(nil)
-		err := mgr.SendAllToSameReciever(&a, msg)
+		err := mgr.SendAll(&a, msg)
 		assert.Nil(t, err)
 	}
 }
@@ -201,7 +133,7 @@ func Test_Notify_Manager_SendToSpecificSenderType(t *testing.T) {
 		mgr.senders = make(map[string]MessageSender)
 		mockSender := new(SenderMock)
 		mockSender.
-			On("SendToReciever", mock.AnythingOfType("string"), mock.AnythingOfType("[]uint8")).
+			On("Send", mock.AnythingOfType("string"), mock.AnythingOfType("[]uint8")).
 			Run(func(args mock.Arguments) {
 				assert.Equal(t, "reciever", args.Get(0).(string))
 				assert.Equal(t, "some message", string(args.Get(1).([]byte)))
@@ -220,7 +152,7 @@ func Test_Notify_Manager_SendToSpecificSenderType(t *testing.T) {
 		mockSender := new(SenderMock)
 
 		mockSender.
-			On("SendToReciever", mock.AnythingOfType("string"), mock.AnythingOfType("[]uint8")).
+			On("Send", mock.AnythingOfType("string"), mock.AnythingOfType("[]uint8")).
 			Run(func(args mock.Arguments) {
 				assert.Equal(t, "reciever", args.Get(0).(string))
 				assert.Equal(t, "some message", string(args.Get(1).([]byte)))
@@ -229,50 +161,6 @@ func Test_Notify_Manager_SendToSpecificSenderType(t *testing.T) {
 
 		mgr.senders[TestSenderType] = mockSender
 		err := mgr.SendToSpecificSenderType(TestSenderType, "reciever", []byte("some message"))
-		assert.Nil(t, err)
-	}
-}
-
-func Test_Notify_Manager_SendToSpecificSenderTypeDefault(t *testing.T) {
-	// if nothing setup
-	{
-		mgr := new(Manager)
-		err := mgr.SendToSpecificSenderTypeDefault("someone", []byte("some message"))
-		assert.Error(t, err)
-	}
-	// if something setup and failure , i expect to get failure
-	{
-		var testErr = errors.New("some err")
-		mgr := new(Manager)
-		mgr.senders = make(map[string]MessageSender)
-		mockSender := new(SenderMock)
-		mockSender.
-			On("SendToDefaultReciever", mock.AnythingOfType("[]uint8")).
-			Run(func(args mock.Arguments) {
-				assert.Equal(t, "some message", string(args.Get(0).([]byte)))
-			}).
-			Return(testErr)
-		mgr.senders[TestSenderType] = mockSender
-
-		err := mgr.SendToSpecificSenderTypeDefault(TestSenderType, []byte("some message"))
-		assert.Error(t, err)
-		assert.ErrorIs(t, testErr, err)
-	}
-	// if something setup and success , i expect to get success
-	{
-
-		mgr := new(Manager)
-		mgr.senders = make(map[string]MessageSender)
-		mockSender := new(SenderMock)
-		mockSender.
-			On("SendToDefaultReciever", mock.AnythingOfType("[]uint8")).
-			Run(func(args mock.Arguments) {
-				assert.Equal(t, "some message", string(args.Get(0).([]byte)))
-			}).
-			Return(nil)
-		mgr.senders[TestSenderType] = mockSender
-
-		err := mgr.SendToSpecificSenderTypeDefault(TestSenderType, []byte("some message"))
 		assert.Nil(t, err)
 	}
 }

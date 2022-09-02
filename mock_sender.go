@@ -11,14 +11,8 @@ type SenderMock struct {
 	mock.Mock
 }
 
-// SendToDefaultReciever : send to someone in your default configs
-func (s *SenderMock) SendToDefaultReciever(bodyContent []byte) error {
-	args := s.Called(bodyContent)
-	return args.Error(0)
-}
-
-// SendToReciever send to someone not in your default configs
-func (s *SenderMock) SendToReciever(reciever string, bodyContent []byte) error {
+// Send send to someone not in your default configs
+func (s *SenderMock) Send(reciever string, bodyContent []byte) error {
 	args := s.Called(reciever, bodyContent)
 	return args.Error(0)
 }

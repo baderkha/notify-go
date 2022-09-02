@@ -21,13 +21,10 @@ func Test_Notify_SlackBody_WithBody(t *testing.T) {
 func Test_Notify_NewSlackSender(t *testing.T) {
 	// check we get back a non nil ptr and the configs make sense
 	{
-		cfg := &SlackConfig{
-			DefaultChannelWebhook: "some default channel",
-		}
-		sender := NewSlackSender(cfg)
+
+		sender := NewSlackSender()
 		assert.NotNil(t, sender)
 		assert.NotNil(t, sender.r)
 		assert.Equal(t, slackSenderErrPrefix, sender.errPrefix)
-		assert.Equal(t, sender.defaultWebhookURL, cfg.DefaultChannelWebhook)
 	}
 }

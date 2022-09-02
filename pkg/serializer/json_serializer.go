@@ -13,11 +13,13 @@ var _ Iface[any] = &JSON[any]{}
 const errPrefixJSONSer = "json serializer error "
 
 // Serializes a configuration as json
-type JSON[T any] struct{}
+type JSON[T any] struct {
+}
 
 func (j *JSON[T]) Write(data *T, w io.Writer) error {
 	b, err := json.Marshal(data)
 	if err != nil {
+
 		return errors.Wrap(err, errPrefixJSONSer)
 	}
 	_, err = w.Write(b)

@@ -64,6 +64,8 @@ go get -u github.com/baderkha/notify-go
  <h2 align="center"> API Usage </h2> 
  This section will cover how to use the api.
 
+ *Note You Need Go **v1.18+*** Since The API uses generics
+
 ## MessageSender
 `notify.MessageSender` is an interface which has implementations for slack,discord,and telegram. If your usage is simple and you only want to message Discord for example . Then attaching this interface is perfect for you.
 
@@ -73,29 +75,15 @@ go get -u github.com/baderkha/notify-go
 
 ### Slack Instructions  
 
-
 1) init
 ``` go
-slackSender := notify.NewSlackSender(&notify.SlackConfig{
-    DefaultChannelWebhook : "https://slack.channel.com/somelongauthtoken/embedded"
-})
+slackSender := notify.NewSlackSender()
 ```
 
-2) send a message to default webhook
+2) send a message to a webhook
 
 ``` go
-// this will send to 
-// https://slack.channel.com/somelongauthtoken/embedded
-err := slackSender.SendToDefaultReciever()
-if err != nil {
-    log.Fatal(err)
-}
-```
-
-3) send a message to a different webhook
-
-``` go
-err := slackSender.SendToReciever("https://slack.channel.com/your/other/channel/webhook")
+err := slackSender.Send("https://slack.channel.com/your/other/channel/webhook",[]byte("some_message"))
 if err != nil {
     log.Fatal(err)
 }
@@ -109,26 +97,13 @@ Discord is very similar to slack since it also uses webhooks to send messages to
 
 1) init
 ``` go
-discSender := notify.NewDiscordSender(&notify.DiscordConfig{
-    DefaultChannelWebhook : "https://slack.channel.com/somelongauthtoken/embedded"
-})
+discSender := notify.NewDiscordSender()
 ```
 
-2) send a message to default webhook
+2) send a message to a different webhook
 
 ``` go
-// this will send to 
-// https://slack.channel.com/somelongauthtoken/embedded
-err := discSender.SendToDefaultReciever()
-if err != nil {
-    log.Fatal(err)
-}
-```
-
-3) send a message to a different webhook
-
-``` go
-err := discSender.SendToReciever("https://slack.channel.com/your/other/channel/webhook")
+err := discSender.Send("https://slack.channel.com/your/other/channel/webhook",[]byte("somemessage"))
 if err != nil {
     log.Fatal(err)
 }

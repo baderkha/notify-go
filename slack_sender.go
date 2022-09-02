@@ -5,12 +5,9 @@ var _ MessageSender = &SlackSender{}
 const slackSenderErrPrefix = "notify-go : slack message error : "
 
 // NewSlackSender : creat a new slack notification sender
-func NewSlackSender(cfg *SlackConfig) *SlackSender {
-	return (NewWebhookSender[SlackBody](cfg, slackSenderErrPrefix))
+func NewSlackSender() *SlackSender {
+	return (NewWebhookSender[SlackBody](slackSenderErrPrefix))
 }
-
-// SlackConfig : slack configuration
-type SlackConfig = WebhookConfig
 
 type SlackBody struct {
 	Text string `json:"text"`

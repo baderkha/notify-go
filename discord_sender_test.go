@@ -21,13 +21,10 @@ func Test_Notify_DiscordBody_WithBody(t *testing.T) {
 func Test_Notify_NewDiscordSender(t *testing.T) {
 	// check we get back a non nil ptr and the configs make sense
 	{
-		cfg := &SlackConfig{
-			DefaultChannelWebhook: "some default channel",
-		}
-		sender := NewDiscordSender(cfg)
+
+		sender := NewDiscordSender()
 		assert.NotNil(t, sender)
 		assert.NotNil(t, sender.r)
 		assert.Equal(t, discordSenderErrPrefix, sender.errPrefix)
-		assert.Equal(t, sender.defaultWebhookURL, cfg.DefaultChannelWebhook)
 	}
 }

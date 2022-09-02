@@ -30,29 +30,8 @@ func (m *Manager) AddSender(senderType string, s MessageSender) {
 	m.senders[senderType] = s
 }
 
-// SendDefaultAll : concurrently sends messages to all the setup senders
-func (m *Manager) SendDefaultAll(body []byte) error {
-	var wg sync.WaitGroup
-	var erList err.List
-	for _, v := range m.senders {
-		wg.Add(1)
-		go func(body []byte, sender MessageSender) {
-			defer wg.Done()
-			err := sender.SendToDefaultReciever(body)
-			if err != nil {
-				erList.Push(err)
-			}
-		}(body, v)
-	}
-	wg.Wait()
-	if erList.Len() > 0 {
-		return erList.Err()
-	}
-	return nil
-}
-
-// SendAllToSameReciever : concurrently sends messages to all the senders given a reciver alias address map
-func (m *Manager) SendAllToSameReciever(alias *RecieverAlias, bodyContent []byte) error {
+// SendAll : concurrently sends messages to all the senders given a reciver alias address map
+func (m *Manager) SendAll(alias *RecieverAlias, bodyContent []byte) error {
 	if alias == nil {
 		return errExpectedAlias
 	}
@@ -67,7 +46,7 @@ func (m *Manager) SendAllToSameReciever(alias *RecieverAlias, bodyContent []byte
 				erList.Push(fmt.Errorf("notfy-go : Message Manager : Expected alias entry for senderType %s", senderType))
 				return
 			}
-			err := v.SendToReciever(reciever, body)
+			err := v.Send(reciever, body)
 			if err != nil {
 				erList.Push(err)
 			}
@@ -80,21 +59,11 @@ func (m *Manager) SendAllToSameReciever(alias *RecieverAlias, bodyContent []byte
 	return nil
 }
 
-// SendToSpecificSenderType : allows you to access the SendToReciever Method
+// SendToSpecificSenderType : allows you to access the Send Method
 func (m *Manager) SendToSpecificSenderType(senderType, reciever string, bodyContent []byte) error {
 	sender := m.senders[senderType]
 	if sender == nil {
 		return fmt.Errorf("notify-go : Message Manager : Expected %s to be setup", senderType)
 	}
-	return sender.SendToReciever(reciever, bodyContent)
-}
-
-// SendToSpecificSenderTypeDefault : Send to a specific social type ie discord forexample , using the default reciver
-// ie the channel / group / ...etc
-func (m *Manager) SendToSpecificSenderTypeDefault(senderType string, bodyContent []byte) error {
-	sender := m.senders[senderType]
-	if sender == nil {
-		return fmt.Errorf("notify-go : Message Manager : Expected %s to be setup", senderType)
-	}
-	return sender.SendToDefaultReciever(bodyContent)
+	return sender.Send(reciever, bodyContent)
 }

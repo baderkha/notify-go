@@ -37,5 +37,8 @@ func Execute() error {
 }
 
 func init() {
-	rootCmd.AddCommand(&cobra.Command{})
+
+	rootCmd.AddCommand(appendContact)
+	rootCmd.AddCommand(addContact)
+	rootCmd.AddCommand(allContact)
 }

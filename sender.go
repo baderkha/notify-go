@@ -19,8 +19,6 @@ func SetDebug(val bool) {
 // MessageSender : a base contract that all other message
 // senders need to fullfill
 type MessageSender interface {
-	// SendToDefaultReciever : send to someone in your default configs
-	SendToDefaultReciever(bodyContent []byte) error
-	// SendToReciever send to someone not in your default configs
-	SendToReciever(reciever string, bodyContent []byte) error
+	// Send send to someone not in your default configs
+	Send(reciever string, bodyContent []byte) error
 }
