@@ -289,7 +289,7 @@ Example :
 ***Note** this will message everyone in the contact list and all platforms. use this with caution :)*
 
 ```bash
-notifygo msgbrod "hi mom"
+notify-go msgbrod "hi mom"
 ```
 
 
