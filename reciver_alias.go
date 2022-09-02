@@ -23,6 +23,12 @@ func NewRecieverAlias(senderTypeToReciverMap map[string]string) (*RecieverAlias,
 	}, nil
 }
 
+func NewEmptyRecieverAlias() *RecieverAlias {
+	return &RecieverAlias{
+		aliasMap: make(map[string]string),
+	}
+}
+
 // RecieverAlias : a map of a sender and reciver, it's a good way to group similar recivers but different channels
 //
 // In plain english : let's say you had the same group in discord , slack , telegram

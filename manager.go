@@ -12,6 +12,13 @@ var (
 	errExpectedAlias = errors.New("notify-go : Error expected an alias mapping to be provided")
 )
 
+func Default() *Manager {
+	msg := new(Manager)
+	msg.AddSender(DiscordSenderType, NewDiscordSender())
+	msg.AddSender(SlackSenderType, NewSlackSender())
+	return msg
+}
+
 // Manager : A manager for all the sender type implementations
 type Manager struct {
 	senders map[string]MessageSender
@@ -59,8 +66,8 @@ func (m *Manager) SendAll(alias *RecieverAlias, bodyContent []byte) error {
 	return nil
 }
 
-// SendToSpecificSenderType : allows you to access the Send Method
-func (m *Manager) SendToSpecificSenderType(senderType, reciever string, bodyContent []byte) error {
+// SendToSpecificType : allows you to access the Send Method
+func (m *Manager) SendToSpecificType(senderType, reciever string, bodyContent []byte) error {
 	sender := m.senders[senderType]
 	if sender == nil {
 		return fmt.Errorf("notify-go : Message Manager : Expected %s to be setup", senderType)

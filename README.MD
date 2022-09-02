@@ -37,15 +37,14 @@ Table of contents
 - [Installation](#Installation)
     - [API](#a-api-mode-installation)
     - [Command Line](#b-command-line-installation)
+- [Authorization Setup]()
 - [API Usage](#api)
 - [Cli Usage](#cli-usage)
-- Setting Up Messaging Auth
-    - something
 
 
 ---
 
-<h2 align="center"> Installation </h2>
+# Installation {.center}
 
 ## A) API Mode Installation
 
@@ -57,6 +56,30 @@ go get -u github.com/baderkha/notify-go
 ## B) Command Line Installation
 
 // todo
+
+---
+
+<h2 id="authorization-setup" align="center"> Authorization Setup </h2>
+
+<p style="color:red"> *Note you must do this in order to use the cli/api*</p>
+
+
+This section will cover how to setup authorization for each of the message senders . Note that 
+
+- [Slack](https://api.slack.com/messaging/webhooks)
+    - you need to create an app
+    - give it permissions 
+    - create a webhook 
+    - use that webhook with this cli / api
+- [Discord](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks)
+    - go to your server settings
+    - under integrations (create a webhook)
+    - call it a cool name
+    - use that webhook with this cli / api
+- [Telegram]()
+    - // todo
+
+
 
 
 ---
@@ -117,27 +140,91 @@ if err != nil {
 
 [Otherwise see](#MessageSender)
 
+1) init
+
+``` go
+// default contains all the clients
+msgMgr := notify.Default()
+```
+
+2) send a message to a specific client (discord , slack , telegram)
+
+``` go
+// send to a specific client like discord
+err := msgMgr.SendToSpecificType(
+    notify.DiscordSenderType,
+    "https://www.some-webhook.url.com",
+    []byte("hi mom"),
+)
+```
+
+3) broadcast same message to all clients
+
+``` go
+// 1 - create a mapping
+ralias := notify.NewEmptyRecieverAlias()
+// returns an error 
+_ = ralias.Add(notfy.DiscordSenderType,"https://www.google.com")
+_ = ralias.Add(notify.SlackSenderType,"https://www.google.com")
+
+// 2 - send msg
+msgMgr.SendAll(ralias,[]byte("hi mom "))
+
+```
+
+## Implement your own sender
+
+To implement your own Message publisher client you have to implement the `notify.Sender` Method and then add your sender to the manager
 
 
+``` go
+Send(reciever string, bodyContent []byte) error
+```
+
+Example : 
+
+1) Implement the interface
+```go 
+// equivalent of implements keyword
+var _ notify.Sender = &WhatsappSender{}
+
+type WhatsappSender struct {}
+
+func (w *WhatsappSender) Send(reciver string , bodyContent[]byte) error {
+    return nil
+}
+```
+
+2) [Optional] Enroll it to the manager if you're using it in tandum with other services
+``` go
+// your main go
+func main() {
+    mgr := notify.Default()
+    mgr.AddSender("whatsapp",new(WhatsappSender))
+
+    _ = msgMgr.SendToSpecificType(
+        "whatsapp",
+        "chat_id",
+        []byte("hi mom"),
+    )
+
+}
+```
 
 ----
 
 <h2 align="center"> Cli Usage </h2>
 
-// todo
+### Sending Messages
+
+
+### Managing Contacts
+
+
+### Broadcasting messages
 
 ---
 
-<h2 align="center"> Setting Up Messaging Auth </h2>
+[^1]: By Ahmad Baderkhan
 
-
-This section will cover how to setup authorization for each of the message senders . Note that 
-
-
-
-
----
-
-By *Ahmad Baderkhan*
-
-License *Apache-V2*
+[^2]: License *Apache-V2*

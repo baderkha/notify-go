@@ -14,7 +14,5 @@ func Init() {
 		WritePath: config.GetPath(),
 	}).Init()
 
-	notifyMgr = new(notify.Manager)
-	notifyMgr.AddSender(notify.DiscordSenderType, notify.NewDiscordSender())
-	notifyMgr.AddSender(notify.SlackSenderType, notify.NewSlackSender())
+	notifyMgr = notify.Default()
 }

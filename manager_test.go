@@ -119,11 +119,11 @@ func Test_Notify_Manager_SendAllToSameReceiver(t *testing.T) {
 	}
 }
 
-func Test_Notify_Manager_SendToSpecificSenderType(t *testing.T) {
+func Test_Notify_Manager_SendToSpecificType(t *testing.T) {
 	// if nothing setup
 	{
 		mgr := new(Manager)
-		err := mgr.SendToSpecificSenderType("someone", "reciever", []byte("some message"))
+		err := mgr.SendToSpecificType("someone", "reciever", []byte("some message"))
 		assert.Error(t, err)
 	}
 	// if something setup and failure , i expect to get failure
@@ -141,7 +141,7 @@ func Test_Notify_Manager_SendToSpecificSenderType(t *testing.T) {
 			Return(testErr)
 		mgr.senders[TestSenderType] = mockSender
 
-		err := mgr.SendToSpecificSenderType(TestSenderType, "reciever", []byte("some message"))
+		err := mgr.SendToSpecificType(TestSenderType, "reciever", []byte("some message"))
 		assert.Error(t, err)
 		assert.ErrorIs(t, testErr, err)
 	}
@@ -160,7 +160,7 @@ func Test_Notify_Manager_SendToSpecificSenderType(t *testing.T) {
 			Return(nil)
 
 		mgr.senders[TestSenderType] = mockSender
-		err := mgr.SendToSpecificSenderType(TestSenderType, "reciever", []byte("some message"))
+		err := mgr.SendToSpecificType(TestSenderType, "reciever", []byte("some message"))
 		assert.Nil(t, err)
 	}
 }

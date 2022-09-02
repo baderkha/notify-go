@@ -23,7 +23,7 @@ func SendMessage(cmd *cobra.Command, args []string) {
 	if isFound && a.Socials[senderType] != "" {
 		contactNameOrWH = a.Socials[senderType]
 	}
-	err := notifyMgr.SendToSpecificSenderType(senderType, contactNameOrWH, []byte(messageContent))
+	err := notifyMgr.SendToSpecificType(senderType, contactNameOrWH, []byte(messageContent))
 	if err != nil {
 		cmd.PrintErr(err)
 		fmt.Println("")
