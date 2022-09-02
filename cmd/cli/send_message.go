@@ -11,9 +11,9 @@ import (
 )
 
 var (
-	errSendMsgArgs      = errors.New("send message needs to have sender type , contact name | chat id | webhook url , message body")
-	errSendMsgToConArgs = errors.New("send message to contact needs to have contact name | chat id | webhook url , message body")
-	errSendMsgToAllArgs = errors.New("broadcast message needs to have message body")
+	errSendMsgArgs      = errors.New("needs to have sender type , contact name | chat id | webhook url , message body")
+	errSendMsgToConArgs = errors.New("needs to have contact name | chat id | webhook url , message body")
+	errSendMsgToAllArgs = errors.New("needs to have a message body")
 )
 
 var (
@@ -50,7 +50,7 @@ var (
 	broadcastToAll = &cobra.Command{
 		Args: func(cmd *cobra.Command, args []string) error {
 			if len(args) != 1 {
-				return errSendMsgToConArgs
+				return errSendMsgToAllArgs
 			}
 			return nil
 		},
