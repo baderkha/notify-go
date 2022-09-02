@@ -34,17 +34,17 @@ This solution is great for the following scenarios :
 
 Table of contents
 - [Usage](#Notify-go)
-- [Installation](#Installation)
+- [Installation](#-installation)
     - [API](#a-api-mode-installation)
     - [Command Line](#b-command-line-installation)
-- [Authorization Setup]()
+- [Authorization Setup](#-authorization-setup-)
 - [API Usage](#api)
 - [Cli Usage](#cli-usage)
 
 
 ---
 
-# Installation {.center}
+<h2 align="center"> Installation </h2>
 
 ## A) API Mode Installation
 
