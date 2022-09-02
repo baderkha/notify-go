@@ -57,6 +57,32 @@ go get -u github.com/baderkha/notify-go
 
 // todo
 
+1) go to [release page](https://github.com/baderkha/notify-go/releases)
+
+2) download the binary that matches your system
+
+
+3) move to path
+
+    Linux 
+
+    move binary to /usr/local/bin
+    ```bash
+    sudo mv ~/Downloads/notify-go-linux-x86 /usr/local/bin/notify-go
+    sudo chmod +x /usr/local/bin/notify-go
+    ```
+
+    Mac
+
+    move binary to /usr/local/bin
+    ```bash
+    sudo mv ~/Downloads/notify-go-linux-x86 /usr/local/bin/notify-go
+    sudo chmod +x /usr/local/bin/notify-go
+    ```
+
+    Windows
+
+
 ---
 
 <h2 id="authorization-setup" align="center"> Authorization Setup </h2>
