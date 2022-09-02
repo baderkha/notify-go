@@ -46,7 +46,7 @@ func (a *AddressBookFile) Init() *AddressBookFile {
 }
 
 func (a *AddressBookFile) musteWriteAddressBook(ad []*Address) {
-	f, _ := os.OpenFile(a.path(), os.O_CREATE|os.O_WRONLY|os.O_APPEND, os.ModePerm)
+	f, _ := os.OpenFile(a.path(), os.O_CREATE|os.O_WRONLY|os.O_APPEND|os.O_TRUNC, os.ModePerm)
 	f.Truncate(0)
 	f.Seek(0, 0)
 	defer f.Close()
