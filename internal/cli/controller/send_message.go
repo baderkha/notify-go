@@ -2,8 +2,10 @@ package controller
 
 import (
 	"fmt"
+	"sync"
 
 	"github.com/baderkha/notify-go"
+	"github.com/baderkha/notify-go/internal/cli/repo"
 	"github.com/spf13/cobra"
 )
 
@@ -50,5 +52,36 @@ func SendMessageToAllChannels(cmd *cobra.Command, args []string) {
 		cmd.PrintErr(err.Error() + "\n")
 		return
 	}
+
+}
+
+func BroadCastMessageToAll(cmd *cobra.Command, args []string) {
+	messageContent := args[0]
+
+	var wg sync.WaitGroup
+
+	a := contactRepo.GetEntireAddressBook()
+
+	for _, contact := range a {
+		if contact == nil {
+			continue
+		}
+		wg.Add(1)
+		go func(con *repo.Address) {
+			defer wg.Done()
+			ralias, err := notify.NewRecieverAlias(con.Socials)
+			if err != nil {
+				panic(err) // not supposed to happen
+			}
+
+			err = notifyMgr.SendAll(ralias, []byte(messageContent))
+			if err != nil {
+				cmd.PrintErr(err.Error() + "\n")
+				return
+			}
+		}(contact)
+
+	}
+	wg.Wait()
 
 }

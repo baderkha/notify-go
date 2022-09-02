@@ -12,7 +12,8 @@ import (
 
 var (
 	errSendMsgArgs      = errors.New("send message needs to have sender type , contact name | chat id | webhook url , message body")
-	errSendMsgToConArgs = errors.New("send message needs to have contact name | chat id | webhook url , message body")
+	errSendMsgToConArgs = errors.New("send message to contact needs to have contact name | chat id | webhook url , message body")
+	errSendMsgToAllArgs = errors.New("broadcast message needs to have message body")
 )
 
 var (
@@ -48,7 +49,7 @@ var (
 
 	broadcastToAll = &cobra.Command{
 		Args: func(cmd *cobra.Command, args []string) error {
-			if len(args) != 2 {
+			if len(args) != 1 {
 				return errSendMsgToConArgs
 			}
 			return nil
@@ -56,6 +57,6 @@ var (
 		Use:     "broadcast-message-to-all [message body]",
 		Aliases: []string{"msgbrod"},
 		Short:   "send a message with discord , slack or telegram for you entire address book",
-		Run:     controller.SendMessageToAllChannels,
+		Run:     controller.BroadCastMessageToAll,
 	}
 )

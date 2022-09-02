@@ -46,4 +46,5 @@ func init() {
 	rootCmd.AddCommand(sendMessage)
 	rootCmd.AddCommand(sendMessageToContact)
 	rootCmd.AddCommand(broadcastToAll)
+
 }
