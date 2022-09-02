@@ -132,7 +132,8 @@ if err != nil {
 }
 
 ```
-
+<br>
+<br>
 
 ## Manager
 
@@ -171,6 +172,9 @@ _ = ralias.Add(notify.SlackSenderType,"https://www.google.com")
 msgMgr.SendAll(ralias,[]byte("hi mom "))
 
 ```
+<br>
+<br>
+
 
 ## Implement your own sender
 
@@ -215,13 +219,80 @@ func main() {
 
 <h2 align="center"> Cli Usage </h2>
 
-### Sending Messages
+### Help
 
+```bash
+notify-go --help
+```
+
+<br>
 
 ### Managing Contacts
 
+Contacts allow you to map channels / entities to different social profiles . IE you can map your 1 channel to discord , slack , telegram
+
+This is **powerful** , because you can leverage the broadcast functionality of the cli to send to all those channel with 1 alias
+
+Example : 
+
+- Add Contact Entry
+    ```bash
+    notify-go newcon crypto_channel
+    ```
+
+- Add Contact Social Mapping
+
+    this will make it easy for you to reference by name
+    rather than have to repaste the webhook everytime
+
+    ```bash
+    notify-go apcon crypto_channel discord https://www.google.com
+    notify-go apcon crypto_channel slack https://www.google.com
+    ```
+
+- List Contacts
+
+    Allows you to list all / 1 contact
+
+    - all
+        ```bash
+        notify-go cons 
+        ```
+    - specific
+        ```bash
+        notify-go cons crypto_channel
+        ```
+<br>
+<br>
+
+
+### Sending Messages
+
+- with webhook
+    ```bash
+    notify-go msg discord https://webhook.com "hi mom"
+    ```
+- through contact alias (see above section for how to create contacts)
+    ```bash
+    notify-go msg discord crypto_channel "hi mom"
+    ```
+- to all social platforms via contact mapping*
+    in this scenario we setup mapping for crypto_channel to discord
+    and slack . So this will send to **both** channels concurrently
+    ```bash
+    notify-go msgcon crypto_channel "hi mom"
+    ```
+
 
 ### Broadcasting messages
+
+***Note** this will message everyone in the contact list and all platforms. use this with caution :)*
+
+```bash
+notifygo msgbrod "hi mom"
+```
+
+
 
 ---
 
