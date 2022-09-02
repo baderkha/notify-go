@@ -3,6 +3,7 @@ package notify
 import (
 	"fmt"
 	"net/http"
+	"net/url"
 
 	"github.com/pkg/errors"
 	"gopkg.in/resty.v1"
@@ -16,6 +17,10 @@ type WebhookSender[T interface{ WithBody(b []byte) T }] struct {
 
 // Send send to someone not in your default configs
 func (s *WebhookSender[T]) Send(reciever string, bodyContent []byte) error {
+	_, err := url.ParseRequestURI(reciever)
+	if err != nil {
+		return err
+	}
 	var bdy T
 	bdy = bdy.WithBody(bodyContent)
 	res, err := s.r.

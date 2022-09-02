@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/baderkha/notify-go"
+	"github.com/baderkha/notify-go/internal/cli/controller"
 	"github.com/spf13/cobra"
 )
 
@@ -37,8 +38,12 @@ func Execute() error {
 }
 
 func init() {
-
+	controller.Init()
 	rootCmd.AddCommand(appendContact)
 	rootCmd.AddCommand(addContact)
 	rootCmd.AddCommand(allContact)
+
+	rootCmd.AddCommand(sendMessage)
+	rootCmd.AddCommand(sendMessageToContact)
+	rootCmd.AddCommand(broadcastToAll)
 }

@@ -2,20 +2,14 @@ package controller
 
 import (
 	"fmt"
-	"os"
 
-	"github.com/baderkha/notify-go/internal/cli/pkg/config"
 	"github.com/baderkha/notify-go/internal/cli/repo"
-	"github.com/baderkha/notify-go/pkg/serializer"
 	"github.com/chrusty/go-tableprinter"
 	"github.com/spf13/cobra"
 )
 
 var (
-	contactRepo repo.IAddressBook = (&repo.AddressBookFile{
-		Slizr:     serializer.JSON[[]*repo.Address]{},
-		WritePath: config.GetPath(),
-	}).Init()
+	contactRepo repo.IAddressBook
 )
 
 func NewContact(cmd *cobra.Command, args []string) {
@@ -39,7 +33,6 @@ func AppendContact(cmd *cobra.Command, args []string) {
 	contactSocials, isFound := contactRepo.GetByLabel(contactName)
 	if !isFound {
 		cmd.PrintErr("You need to create the contact first \n")
-		os.Exit(1)
 		return
 	}
 	if contactSocials.Socials == nil {

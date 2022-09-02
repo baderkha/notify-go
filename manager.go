@@ -37,13 +37,13 @@ func (m *Manager) SendAll(alias *RecieverAlias, bodyContent []byte) error {
 	}
 	var wg sync.WaitGroup
 	var erList err.List
+
 	for k, v := range m.senders {
 		wg.Add(1)
 		go func(body []byte, alias *RecieverAlias, senderType string, v MessageSender) {
 			defer wg.Done()
 			reciever := alias.Get(senderType)
 			if reciever == "" {
-				erList.Push(fmt.Errorf("notfy-go : Message Manager : Expected alias entry for senderType %s", senderType))
 				return
 			}
 			err := v.Send(reciever, body)
