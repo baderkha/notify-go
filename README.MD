@@ -34,12 +34,12 @@ This solution is great for the following scenarios :
 
 Table of contents
 - [Usage](#Notify-go)
-- [Installation](#-installation)
+- [Installation](#-installation-)
     - [API](#a-api-mode-installation)
     - [Command Line](#b-command-line-installation)
-- [Authorization Setup](#-authorization-setup-)
-- [API Usage](#api)
-- [Cli Usage](#cli-usage)
+- [Authorization Setup](#-authorization-setup-) -- you cannot skip this step
+- [API Usage](#-api-usage-)
+- [Cli Usage](#-cli-usage-)
 
 
 ---
