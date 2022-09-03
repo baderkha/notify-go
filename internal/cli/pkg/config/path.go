@@ -9,7 +9,6 @@ const defaultAppFolder = "notify-go"
 
 func GetPath() string {
 	path, _ := os.UserConfigDir()
-	filepath.Join()
 	return filepath.Join(path, defaultAppFolder)
 
 }

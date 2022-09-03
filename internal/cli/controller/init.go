@@ -9,6 +9,7 @@ import (
 
 func Init() {
 
+	config.InitFolderPath()
 	contactRepo = (&repo.AddressBookFile{
 		Slizr:     serializer.JSON[[]*repo.Address]{},
 		WritePath: config.GetPath(),

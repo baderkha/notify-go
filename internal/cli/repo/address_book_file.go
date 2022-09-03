@@ -32,7 +32,9 @@ func (a *AddressBookFile) Init() *AddressBookFile {
 	add, err := a.Slizr.Read(f)
 	if err != nil || add == nil {
 		add = &[]*Address{}
+
 		os.Remove(a.path())
+
 		fw, err := os.Create(a.path())
 		defer fw.Close()
 		err = a.Slizr.Write(add, fw)
