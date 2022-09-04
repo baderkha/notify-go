@@ -58,9 +58,13 @@ go get -u github.com/baderkha/notify-go
 1) go to [release page](https://github.com/baderkha/notify-go/releases)
 
 2) download the binary that matches your system
+  
 
+3)  [windows instrructions]
+   - if on windows , then just download the .msi file
+   - install it on your computer
 
-3) move to path
+3) [unix instructions] move to path
 
     Linux 
 
@@ -77,22 +81,6 @@ go get -u github.com/baderkha/notify-go
     sudo mv ~/Downloads/notify-go-linux-x86 /usr/local/bin/notify-go
     sudo chmod +x /usr/local/bin/notify-go
     ```
-
-    Windows
-    
-    open cmd and type the following
-    
-    ```cmd
-    mkdir c:\notify-go
-    ```
-    ```cmd
-    setx PATH "c:\notify-go;%PATH%"
-    ```
-    
-    - open your explorer 
-    - go to your downloads
-    - copy program to c:\notify-go
-    - rename the binary from notify-go-win-x86.exe to notify-go.exe
     
 
 
