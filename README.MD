@@ -79,6 +79,21 @@ go get -u github.com/baderkha/notify-go
     ```
 
     Windows
+    
+    open cmd and type the following
+    
+    ```cmd
+    mkdir c:\notify-go
+    ```
+    ```cmd
+    setx PATH "c:\notify-go;%PATH%"
+    ```
+    
+    - open your explorer 
+    - go to your downloads
+    - copy program to c:\notify-go
+    - rename the binary from notify-go-win-x86.exe to notify-go.exe
+    
 
 
 ---

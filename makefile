@@ -16,5 +16,5 @@ build-all:prepare
 	GOOS=darwin  GOARCH=amd64 go build -o ./bin/mac/x86/notify-go-mac-x86 ./cmd/main.go
 	GOOS=darwin  GOARCH=arm64 go build -o ./bin/mac/arm/notify-go-mac-arm ./cmd/main.go
 	
-	GOOS=windows GOARCH=amd64 go build -o ./bin/windows/x86/notify-go-win-x86 ./cmd/main.go
-	GOOS=windows GOARCH=arm64 go build -o ./bin/windows/arm/notify-go-win-arm ./cmd/main.go
+	GOOS=windows GOARCH=amd64 go build -o ./bin/windows/x86/notify-go-win-x86.exe ./cmd/main.go
+	GOOS=windows GOARCH=arm64 go build -o ./bin/windows/arm/notify-go-win-arm.exe ./cmd/main.go
