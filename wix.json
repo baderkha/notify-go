@@ -1,0 +1,35 @@
+{
+  "product": "notify-go",
+  "company": "baderkha",
+  "license": "LICENSE.md",
+  "upgrade-code": "64f6b606-7f4d-4c44-a115-733ce19ae7a4",
+  "files": {
+    "guid": "5605a7cc-537e-40f5-ae0f-5948bf006f72",
+    "items": [
+      "bin/windows/x86/notify-go.exe"
+    ]
+  },
+  "directories": [
+    "wix-assets"
+  ],
+  "env": {
+    "guid": "",
+    "vars": [
+      {
+        "name": "PATH",
+        "value": "[INSTALLDIR]",
+        "permanent": "no",
+        "system": "no",
+        "action": "set",
+        "part": "last"
+      }
+    ]
+  },
+  "shortcuts": {},
+  "choco": {
+    "description": "Command Line bot messager for slack , discord , and telegram",
+    "project-url": "https://github.com/baderkha/notify-go",
+    "tags": "slack,cli,golang,telegram,discord",
+    "license-url": "https://github.com/baderkha/notify-go/blob/main/LICENSE.md"
+  }
+}
