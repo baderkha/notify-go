@@ -6,6 +6,7 @@ import (
 	"sync"
 
 	"github.com/baderkha/notify-go/pkg/serializer"
+	"github.com/davecgh/go-spew/spew"
 )
 
 var _ IAddressBook = &AddressBookFile{}
@@ -36,6 +37,7 @@ func (a *AddressBookFile) Init() *AddressBookFile {
 		os.Remove(a.path())
 
 		fw, err := os.Create(a.path())
+		spew.Dump(err)
 		defer fw.Close()
 		err = a.Slizr.Write(add, fw)
 		if err != nil {

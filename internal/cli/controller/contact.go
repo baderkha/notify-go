@@ -24,6 +24,7 @@ func NewContact(cmd *cobra.Command, args []string) {
 		Socials: make(map[string]string),
 	})
 	contactRepo.Flush()
+
 }
 
 func AppendContact(cmd *cobra.Command, args []string) {
